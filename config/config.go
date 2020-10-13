@@ -8,7 +8,7 @@ import (
 var DB *gorm.DB
 
 func Init() *gorm.DB {
-	db, err := gorm.Open("postgres", "host=fullstack-postgres port=5432 user=admin dbname=tododb password=123  sslmode=disable")
+	db, err := gorm.Open("postgres", "host=sobatfillah.postgres port=5432 user=admin dbname=api password=123  sslmode=disable")
 
 	if err != nil {
 		panic(err.Error())

@@ -1,18 +1,18 @@
 package main
 
 import (
-	"github.com/sobatfillah/config"
-	"github.com/sobatfillah/migration"
+	// "github.com/sobatfillah/config"
+	// "github.com/sobatfillah/migration"
 	"github.com/sobatfillah/route"
 	"github.com/gin-gonic/gin"
 	"log"
 	"os"
 )
 
-func init() {
-	db := config.Init()
-	migration.Migrate(db)
-}
+// func init() {
+// 	db := config.Init()
+// 	migration.Migrate(db)
+// }
 
 func main(){
 	gin.SetMode(gin.ReleaseMode)

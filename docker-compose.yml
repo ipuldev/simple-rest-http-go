@@ -1,54 +1,54 @@
-version: '3'
+version: "3.7"
+ 
+networks:
+  internal:
+    external: false
+
 services:
-  app:
-    container_name: full_app
-    build: .
-    ports: 
-      - 8080:8080 
-    restart: on-failure
+  sobatfillah.service:
+    image: golang:latest
+    container_name: sobatfillah.service
     volumes:
-      - api:/usr/src/app/
+      - .:/service
+    working_dir: /service
+    restart: always
+    command: ./build.sh
     depends_on:
-      - fullstack-postgres          
+      - sobatfillah.postgres
+    ports:
+      - 8080:8080
     networks:
-      - fullstack
+      - internal
 
 
-  fullstack-postgres:
-    image: postgres:latest
-    container_name: full_db_postgres
+  sobatfillah.postgres:
+    image: postgres
+    container_name: sobatfillah.postgres
+    restart: always
     environment:
-    environment:
-      POSTGRES_DB: tododb
+      POSTGRES_DB: api
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: 123
-      DATABASE_HOST: fullstack-postgres    
     ports:
-      - '5432:5432'
+      - 5432:5432
     volumes:
-      - database_postgres:/var/lib/postgresql/data
+      - ./db:/postgres
     networks:
-      - fullstack
-    
-  pgadmin:
+      - internal
+
+  sobatfillah.pgadmin:
     image: dpage/pgadmin4
-    container_name: pgadmin_container
+    container_name: sobatfillah.pgadmin
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_DEFAULT_EMAIL: saiful@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: 123
+    links:
+      - sobatfillah.postgres
     depends_on:
-      - fullstack-postgres
+     - sobatfillah.postgres
     ports:
       - "5050:80"
     networks:
-      - fullstack
-    restart: unless-stopped
+      - internal
+    restart: always
 
-volumes:
-  api:
-  database_postgres:                  
-
-# Networks to be created to facilitate communication between containers
-networks:
-  fullstack:
-    driver: bridge
