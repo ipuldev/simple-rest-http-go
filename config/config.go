@@ -2,14 +2,15 @@ package config
 
 import (
 	"github.com/jinzhu/gorm"
+	"fmt"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
 var DB *gorm.DB
 
-func Init() *gorm.DB {
-	db, err := gorm.Open("postgres", "host=sobatfillah.postgres port=5432 user=admin dbname=api password=123  sslmode=disable")
-
+func Init(Dbdriver, DbUser, DbPassword, DbPort, DbHost, DbName string) *gorm.DB {
+	DBURL := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable password=%s", DbHost, DbPort, DbUser, DbName, DbPassword)
+	db, err := gorm.Open(Dbdriver, DBURL)
 	if err != nil {
 		panic(err.Error())
 	}
