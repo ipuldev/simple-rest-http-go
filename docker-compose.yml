@@ -6,17 +6,17 @@ networks:
 
 services:
   sobatfillah.service:
-    image: golang:latest
     container_name: sobatfillah.service
-    volumes:
-      - .:/service
-    working_dir: /service
-    restart: always
-    command: ./build.sh
+    build:
+      context: . # Use an image built from the specified dockerfile in the current directory.
+      dockerfile: Dockerfile 
+    restart: unless-stopped
     depends_on:
       - sobatfillah.postgres
+    links: 
+      - sobatfillah.postgres
     ports:
-      - 8080:8080
+    - 8081:8081
     networks:
       - internal
 
